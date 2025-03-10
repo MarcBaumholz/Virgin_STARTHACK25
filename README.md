@@ -27,12 +27,12 @@ As an additional feature, Virgin customers would be able to log in via the Virgi
 Your final presentation will be an interactive walk-through of the platform. 
 
 
-### Use Cases
+### Use Cases
 - The platform will act as a centralised location to take the Virgin customers along on our sustainability journey with us. It will inform them about all initiatives and signpost them to how to get involved to support their preferred sustainability and social action goals.   
 - Our Virgin companies will also benefit from sharing more details about their projects to a wider audience and allowing others to collaborate with their work. They will get support and input from others, whilst learning about similar initiatives across the Virgin Group. 
 
 
-### Technology
+### Technology
 As this is a prototype, we have no hard requirements for what technology is used, though we would suggest you consider designing a tool that meets basic accessibility requirements to enable all our customers to get involved.  
 
 Assume that all tracking, monitoring etc is already taken care of. In the future this could be integrated with our APIs, and we’d be interested in suggestions about this, but there is no need to set up any connections as part of this project.  

@@ -50,26 +50,26 @@ Mocks and designs are fine here, the key is showcasing your ideas and what is po
 
 
 ## <p align="center"> Judging Criteria: </p>
-### Creativity (25%) 
+#### Creativity (25%) 
 - The Virgin brand is well known for being creative, having fun and doing things a bit differently. We’re looking at how you can convey this feeling to our customers, and make sustainability something they would be excited to get involved in. 
 - The use of innovative and emerging approaches is encouraged, particularly ideas that have not been explored before. These may enhance or personalise the experience, build trust and transparency, or create features that resonate with a new audience. 
 - We’d love to hear suggestions of ways you think we can help people collaborate better. Whether it’s a messaging platform, skills matcher or something completely different, bonus points are available for your creative ideas that will bring this platform to life.  
 
 
-### Visual Design (20%) 
+#### Visual Design (20%) 
 - The platform is intended to look visually appealing. Like the rest of our Virgin sites, we’d like this to be bold and engaging, with a touch of the playful. We’re looking for an exciting platform that has real energy to it.  
 
 
-### Technical Sophistication and Feasibility (25%) 
+#### Technical Sophistication and Feasibility (25%) 
 - We’d like something that is relatively straightforward to integrate with our existing systems and that requires limited ongoing support.  
 - It should be simple for Virgin Companies to be able to add in details of new projects without requiring developer support.  
 
 
-### Reachability (20%) 
+#### Reachability (20%) 
 - The platform should engage and retain its users. Your prototype should be easy to navigate and able to convey potentially large amounts of information in an easily digestible way, with clear calls to action.  
 
 
-### Presentation and Communication Skills (10%) 
+#### Presentation and Communication Skills (10%) 
 - Your presentation should be well structured, understandable and easy to follow. We’re looking for you to sell us your platform and its benefits through a clear and effective walk-through. You should also manage your time to ensure you cover everything as planned.  
 
 

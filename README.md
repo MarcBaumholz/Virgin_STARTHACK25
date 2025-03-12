@@ -2,7 +2,7 @@
 
 
 # <p align="center"> Who are we? </p>
-![Virgin](virgin_CBFG_banner.png)
+![Virgin](Virgin_CBFG_banner.png)
 At Virgin, we’re all about creating unique customer experiences, challenging the status quo and championing people and the planet. For five decades, in five business sectors and on five continents, our purpose is to change business for good.  
 
 The home of Virgin is Virgin Group – supporting the Branson family and the growth of the Virgin brand by developing and nurturing valuable Virgin businesses around the world. Virgin Group works alongside all the different Virgin companies and their teams around the world. Virgin Red is our loyalty platform that rewards customers who live the Virgin lifestyle. As the Virgin network hub, we foster deeper customer understanding, opening doors for partners. 

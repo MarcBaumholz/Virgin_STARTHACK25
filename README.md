@@ -40,6 +40,11 @@ Assume that all tracking, monitoring etc is already taken care of. In the future
 Mocks and designs are fine here, the key is showcasing your ideas and what is possible. 
 
 
+### Data
+We've provided a csv file with a sample of some of the Virgin initiatives, with a summary, call to action and a link to find out more. This can be used to help with the design of your repository, to check you have included all the key details. 
+[Data coming soon]
+
+
 ## <p align="center"> The Pitch: </p>
 [Link to the video pitch coming soon]
 

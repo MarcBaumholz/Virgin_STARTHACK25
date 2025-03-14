@@ -50,7 +50,7 @@ We've provided a csv file with a sample of some of the Virgin initiatives, with 
 
 
 ## <p align="center"> Deep Dive Slides: </p>
-[Deep dive slides coming soon]
+[Deep Dive Slides](Virgin_Deep_Dive.pdf)
 <p align="center">  </p>
 
 

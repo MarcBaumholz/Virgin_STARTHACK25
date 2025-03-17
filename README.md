@@ -2,7 +2,7 @@
 
 
 # <p align="center"> Who are we? </p>
-![Virgin](Virgin_CBFG_banner.png)
+![Virgin](background/Virgin_CBFG_banner.png)
 At Virgin, we’re all about creating unique customer experiences, challenging the status quo and championing people and the planet. For five decades, in five business sectors and on five continents, our purpose is to change business for good.  
 
 The home of Virgin is Virgin Group – supporting the Branson family and the growth of the Virgin brand by developing and nurturing valuable Virgin businesses around the world. Virgin Group works alongside all the different Virgin companies and their teams around the world. Virgin Red is our loyalty platform that rewards customers who live the Virgin lifestyle. As the Virgin network hub, we foster deeper customer understanding, opening doors for partners. 
@@ -41,8 +41,8 @@ Mocks and designs are fine here, the key is showcasing your ideas and what is po
 
 
 ### Data
-We've provided a csv file with a sample of some of the Virgin initiatives, with a summary, call to action and a link to find out more. This can be used to help with the design of your repository, to check you have included all the key details. 
-[Data coming soon]
+We've provided a spreadsheet file containing a sample of our Virgin initiatives, with a summary, call to action and a link to find out more. This can be used to help with the design of your repository, to check you have included all the key details. 
+[Link to Sample Initatives](resources/Virgin_StartHack_Sample_Initiatives.xlsx)
 
 
 ## <p align="center"> The Pitch: </p>
@@ -50,7 +50,7 @@ We've provided a csv file with a sample of some of the Virgin initiatives, with 
 
 
 ## <p align="center"> Deep Dive Slides: </p>
-[Deep Dive Slides](Virgin_Deep_Dive.pdf)
+[Deep Dive Slides](background/Virgin_Deep_Dive.pdf)
 <p align="center">  </p>
 
 
@@ -62,7 +62,8 @@ We've provided a csv file with a sample of some of the Virgin initiatives, with 
 
 
 #### Visual Design (20%) 
-- The platform is intended to look visually appealing. Like the rest of our Virgin sites, we’d like this to be bold and engaging, with a touch of the playful. We’re looking for an exciting platform that has real energy to it.  
+- The platform is intended to look visually appealing. Like the rest of our Virgin sites, we’d like this to be bold and engaging, with a touch of the playful. We’re looking for an exciting platform that has real energy to it. 
+- We've provided the Virgin logo in the 'resources folder' to help your design feel more 'Virgin', though please be mindful of copyright rules and restrictions. 
 
 
 #### Technical Sophistication and Feasibility (25%) 

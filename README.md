@@ -42,7 +42,8 @@ Mocks and designs are fine here, the key is showcasing your ideas and what is po
 
 ### Data
 We've provided a spreadsheet file containing a sample of our Virgin initiatives, with a summary, call to action and a link to find out more. This can be used to help with the design of your repository, to check you have included all the key details. 
-[Link to Sample Initatives](resources/Virgin_StartHack_Sample_Initiatives.xlsx)
+[Link to Sample Initatives (Excel File)](resources/Virgin_StartHack_Sample_Initiatives.xlsx)
+[Link to Sample Initative (csv)](resources/Virgin_StartHack_Sample_Initiatives.csv)
 
 
 ## <p align="center"> The Pitch: </p>

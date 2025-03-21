@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h1 class="card-title">{{ initiative.title }}</h1>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                {{ companies|selectattr('id', 'equalto', initiative.company_id)|map(attribute='name')|first }}
+                            </h6>
+                            <span class="badge bg-{{ 'success' if initiative.status == 'active' else 'secondary' }}">
+                                {{ initiative.status|title }}
+                            </span>
+                        </div>
+                        <div class="text-end">
+                            <div class="progress mb-2" style="width: 200px;">
+                                <div class="progress-bar" role="progressbar" style="width: {{ initiative.current_progress }}%"
+                                     aria-valuenow="{{ initiative.current_progress }}" aria-valuemin="0" aria-valuemax="100">
+                                    {{ initiative.current_progress }}%
+                                </div>
+                            </div>
+                            <small class="text-muted">Target: {{ initiative.target_date }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Description and Goals -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">The Challenge</h5>
+                    <p class="card-text">{{ initiative.challenge }}</p>
+                    
+                    <h5 class="card-title mt-4">Description</h5>
+                    <p class="card-text">{{ initiative.description }}</p>
+                    
+                    <h5 class="card-title mt-4">Goals</h5>
+                    <p class="card-text">{{ initiative.goals }}</p>
+
+                    {% if initiative.call_to_action %}
+                    <div class="mt-4">
+                        <h5 class="card-title">Call to Action</h5>
+                        <p class="card-text">{{ initiative.call_to_action }}</p>
+                    </div>
+                    {% endif %}
+
+                    {% if initiative.links %}
+                    <div class="mt-4">
+                        <h5 class="card-title">Learn More</h5>
+                        <ul class="list-group">
+                            {% for link in initiative.links %}
+                            <li class="list-group-item">
+                                <a href="{{ link }}" target="_blank" rel="noopener noreferrer">
+                                    {{ link }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Impact Metrics</h5>
+                    {% for metric in initiative.metrics %}
+                    <div class="mb-3">
+                        <label class="form-label">{{ metric.name }}</label>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" 
+                                 style="width: {{ (metric.value / metric.target * 100)|round }}%"
+                                 aria-valuenow="{{ metric.value }}" 
+                                 aria-valuemin="0" 
+                                 aria-valuemax="{{ metric.target }}">
+                                {{ metric.value }} {{ metric.unit }}
+                            </div>
+                        </div>
+                        <small class="text-muted">Target: {{ metric.target }} {{ metric.unit }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Participants Section - Only show if participants data exists -->
+    {% if initiative.participants %}
+    <div class="row mb-4">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Participants</h5>
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for participant in initiative.participants %}
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-2"
+                                 style="width: 40px; height: 40px;">
+                                {{ participant.name[0] }}
+                            </div>
+                            <div>
+                                <div>{{ participant.name }}</div>
+                                <small class="text-muted">{{ participant.role|title }}</small>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Feedback Section - Only show if feedback data exists -->
+    {% if initiative.feedback %}
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Feedback</h5>
+                    <div class="mb-4">
+                        <form id="feedbackForm" class="row g-3">
+                            <div class="col-md-6">
+                                <label for="rating" class="form-label">Rating</label>
+                                <select class="form-select" id="rating" name="rating" required>
+                                    <option value="">Select rating</option>
+                                    <option value="5">5 - Excellent</option>
+                                    <option value="4">4 - Good</option>
+                                    <option value="3">3 - Average</option>
+                                    <option value="2">2 - Poor</option>
+                                    <option value="1">1 - Very Poor</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="comment" class="form-label">Comment</label>
+                                <input type="text" class="form-control" id="comment" name="comment" required>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="feedbackList">
+                        {% for feedback in initiative.feedback %}
+                        <div class="border-bottom pb-3 mb-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>{{ feedback.user }}</strong>
+                                    <div class="text-warning">
+                                        {% for i in range(feedback.rating) %}★{% endfor %}
+                                        {% for i in range(5 - feedback.rating) %}☆{% endfor %}
+                                    </div>
+                                </div>
+                                <small class="text-muted">{{ feedback.comment }}</small>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const feedbackForm = document.getElementById('feedbackForm');
+    if (feedbackForm) {
+        const feedbackList = document.getElementById('feedbackList');
+
+        feedbackForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(feedbackForm);
+            
+            // Simulate feedback submission (since we don't have a backend yet)
+            const feedback = {
+                user: 'Current User',
+                rating: formData.get('rating'),
+                comment: formData.get('comment')
+            };
+
+            // Add feedback to the list
+            const feedbackElement = document.createElement('div');
+            feedbackElement.className = 'border-bottom pb-3 mb-3';
+            feedbackElement.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>${feedback.user}</strong>
+                        <div class="text-warning">
+                            ${'★'.repeat(feedback.rating)}${'☆'.repeat(5 - feedback.rating)}
+                        </div>
+                    </div>
+                    <small class="text-muted">${feedback.comment}</small>
+                </div>
+            `;
+            feedbackList.insertBefore(feedbackElement, feedbackList.firstChild);
+
+            // Reset form
+            feedbackForm.reset();
+        });
+    }
+});
+</script>
+{% endblock %} 

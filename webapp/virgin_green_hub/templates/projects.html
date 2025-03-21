@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1>Virgin Green Hub Projects</h1>
+            <p class="lead">Explore ongoing sustainability projects across Virgin companies</p>
+        </div>
+    </div>
+
+    <!-- Projects Grid -->
+    <div class="row">
+        {% for project in projects %}
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ project.title }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        {{ companies|selectattr('id', 'equalto', project.company_id)|map(attribute='name')|first }}
+                    </h6>
+                    <p class="card-text">{{ project.description }}</p>
+                    <div class="mb-3">
+                        <span class="badge bg-{{ 'success' if project.status == 'active' else 'secondary' }}">
+                            {{ project.status|title }}
+                        </span>
+                    </div>
+                    <div class="progress mb-3">
+                        <div class="progress-bar" role="progressbar" style="width: {{ project.progress }}%"
+                             aria-valuenow="{{ project.progress }}" aria-valuemin="0" aria-valuemax="100">
+                            {{ project.progress }}%
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

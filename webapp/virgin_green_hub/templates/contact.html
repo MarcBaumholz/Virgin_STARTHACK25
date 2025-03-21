@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <!-- Contact Information -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Contact Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h6 class="text-success mb-3">Email Support</h6>
+                        <p class="mb-0">
+                            <i class="fas fa-envelope me-2"></i>
+                            <a href="mailto:support@virgingreenhub.com" class="text-decoration-none">
+                                support@virgingreenhub.com
+                            </a>
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 class="text-success mb-3">Office Hours</h6>
+                        <p class="mb-0">Monday - Friday: 9:00 AM - 6:00 PM GMT</p>
+                        <p class="mb-0">Saturday: 10:00 AM - 4:00 PM GMT</p>
+                        <p class="mb-0">Sunday: Closed</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 class="text-success mb-3">Social Media</h6>
+                        <div class="d-flex gap-3">
+                            <a href="#" class="text-decoration-none">
+                                <i class="fab fa-twitter fa-lg"></i>
+                            </a>
+                            <a href="#" class="text-decoration-none">
+                                <i class="fab fa-linkedin fa-lg"></i>
+                            </a>
+                            <a href="#" class="text-decoration-none">
+                                <i class="fab fa-facebook fa-lg"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h6 class="text-success mb-3">Address</h6>
+                        <p class="mb-0">Virgin Green Hub</p>
+                        <p class="mb-0">123 Sustainability Street</p>
+                        <p class="mb-0">London, UK</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Frequently Asked Questions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    How do I reset my password?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Click the "Forgot Password" link on the login page and follow the instructions sent to your email.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    How do I earn Green Points?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    You can earn Green Points by participating in sustainability projects, submitting ideas, and engaging with the community.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    How do I submit a new idea?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Click the "Submit Idea" button on the Ideas page and fill out the submission form with your sustainability idea.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Send Us a Message</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('contact') }}">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Your Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Subject</label>
+                            <select class="form-select" id="subject" name="subject" required>
+                                <option value="">Select a subject</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="technical">Technical Support</option>
+                                <option value="billing">Billing Issue</option>
+                                <option value="feedback">Feedback</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="subscribe" name="subscribe">
+                                <label class="form-check-label" for="subscribe">
+                                    Subscribe to our newsletter for updates and news
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-paper-plane me-2"></i>Send Message
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Response Time -->
+            <div class="alert alert-info mt-4">
+                <i class="fas fa-info-circle me-2"></i>
+                We typically respond to inquiries within 24-48 hours during business days.
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

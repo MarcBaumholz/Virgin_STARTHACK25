@@ -1,0 +1,15 @@
+Flask
+Flask-SQLAlchemy
+Flask-Login
+Flask-Mail
+Flask-Migrate
+python-dotenv
+email-validator
+Werkzeug
+SQLAlchemy
+alembic
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn

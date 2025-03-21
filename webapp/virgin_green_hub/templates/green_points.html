@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Green Points</h1>
+    
+    <!-- User Points Summary -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Your Points</h5>
+                    <h2 class="display-4">{{ current_user.points }}</h2>
+                    <p class="card-text">Current Level: {{ current_user.level }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Next Level</h5>
+                    <h2 class="display-4">{{ current_user.next_level_points }}</h2>
+                    <p class="card-text">Points needed: {{ current_user.points_to_next_level }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Rank</h5>
+                    <h2 class="display-4">#{{ current_user.rank }}</h2>
+                    <p class="card-text">Out of {{ total_users }} users</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Badges Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="mb-0">Your Badges</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                {% for badge in user_badges %}
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-{{ badge.icon }} fa-3x text-{{ badge.color }} mb-3"></i>
+                            <h5 class="card-title">{{ badge.name }}</h5>
+                            <p class="card-text small">{{ badge.description }}</p>
+                            <small class="text-muted">Earned: {{ badge.earned_date }}</small>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaderboard -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="mb-0">Leaderboard</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>User</th>
+                            <th>Points</th>
+                            <th>Level</th>
+                            <th>Badges</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in leaderboard %}
+                        <tr {% if user.id == current_user.id %}class="table-success"{% endif %}>
+                            <td>#{{ user.rank }}</td>
+                            <td>
+                                <img src="{{ user.avatar }}" alt="{{ user.username }}" class="rounded-circle me-2" width="32">
+                                {{ user.username }}
+                            </td>
+                            <td>{{ user.points }}</td>
+                            <td>{{ user.level }}</td>
+                            <td>
+                                {% for badge in user.badges %}
+                                <i class="fas fa-{{ badge.icon }} text-{{ badge.color }}" title="{{ badge.name }}"></i>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- How to Earn Points Modal -->
+<div class="modal fade" id="earnPointsModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">How to Earn Green Points</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        Participate in sustainability projects
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        Submit and implement green ideas
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        Share best practices in Impact Chat
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        Complete sustainability challenges
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        Invite friends to join Virgin Green Hub
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Update points and rank in real-time
+    function updatePoints() {
+        fetch('/api/user/points')
+            .then(response => response.json())
+            .then(data => {
+                document.querySelector('.display-4').textContent = data.points;
+                document.querySelector('.card-text').textContent = `Current Level: ${data.level}`;
+            })
+            .catch(error => console.error('Error updating points:', error));
+    }
+
+    // Update every 30 seconds
+    setInterval(updatePoints, 30000);
+});
+</script>
+{% endblock %} 

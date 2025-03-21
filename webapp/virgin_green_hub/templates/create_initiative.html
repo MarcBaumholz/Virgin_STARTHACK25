@@ -1,0 +1,247 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Create New Initiative</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('initiatives.create_initiative') }}">
+                        <!-- Company Selection -->
+                        <div class="mb-3">
+                            <label for="company_id" class="form-label">Company</label>
+                            <select class="form-select" id="company_id" name="company_id" required>
+                                <option value="">Select a company</option>
+                                {% for company in companies %}
+                                <option value="{{ company.id }}">{{ company.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Title -->
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="title" name="title" required>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+                        </div>
+
+                        <!-- Category -->
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Category</label>
+                            <select class="form-select" id="category" name="category" required>
+                                <option value="">Select a category</option>
+                                <option value="Renewable Energy">Renewable Energy</option>
+                                <option value="Waste Reduction">Waste Reduction</option>
+                                <option value="Water Conservation">Water Conservation</option>
+                                <option value="Carbon Reduction">Carbon Reduction</option>
+                                <option value="Biodiversity">Biodiversity</option>
+                                <option value="Sustainable Transport">Sustainable Transport</option>
+                                <option value="Circular Economy">Circular Economy</option>
+                                <option value="Education">Education</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <!-- Goals -->
+                        <div class="mb-3">
+                            <label for="goals" class="form-label">Goals</label>
+                            <textarea class="form-control" id="goals" name="goals" rows="4" 
+                                      placeholder="Enter goals, one per line"></textarea>
+                            <div class="form-text">Each goal should be on a new line.</div>
+                        </div>
+
+                        <!-- Target Date -->
+                        <div class="mb-3">
+                            <label for="target_date" class="form-label">Target Date</label>
+                            <input type="date" class="form-control" id="target_date" name="target_date" required>
+                        </div>
+
+                        <!-- Impact Metrics -->
+                        <div class="mb-3">
+                            <label class="form-label">Impact Metrics</label>
+                            <div id="metrics-container">
+                                <div class="metric-entry mb-2">
+                                    <div class="row g-2">
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" name="metric_names[]" 
+                                                   placeholder="Metric name" required>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="number" class="form-control" name="metric_targets[]" 
+                                                   placeholder="Target value" required>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="text" class="form-control" name="metric_units[]" 
+                                                   placeholder="Unit (e.g., kg, kWh)" required>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="button" class="btn btn-outline-danger remove-metric">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline-success btn-sm" id="add-metric">
+                                <i class="fas fa-plus me-1"></i>Add Metric
+                            </button>
+                        </div>
+
+                        <!-- Call to Actions -->
+                        <div class="mb-3">
+                            <label class="form-label">Call to Actions</label>
+                            <div id="actions-container">
+                                <div class="action-entry mb-2">
+                                    <div class="row g-2">
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" name="action_titles[]" 
+                                                   placeholder="Action title" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" name="action_urls[]" 
+                                                   placeholder="URL" required>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="text" class="form-control" name="action_icons[]" 
+                                                   placeholder="Icon name (e.g., fa-heart)" required>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <button type="button" class="btn btn-outline-danger remove-action">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline-success btn-sm" id="add-action">
+                                <i class="fas fa-plus me-1"></i>Add Action
+                            </button>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save me-2"></i>Create Initiative
+                            </button>
+                            <a href="{{ url_for('initiatives.list_initiatives') }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle metric entries
+    const metricsContainer = document.getElementById('metrics-container');
+    const addMetricBtn = document.getElementById('add-metric');
+
+    function createMetricEntry() {
+        const entry = document.createElement('div');
+        entry.className = 'metric-entry mb-2';
+        entry.innerHTML = `
+            <div class="row g-2">
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="metric_names[]" placeholder="Metric name" required>
+                </div>
+                <div class="col-md-3">
+                    <input type="number" class="form-control" name="metric_targets[]" placeholder="Target value" required>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" name="metric_units[]" placeholder="Unit (e.g., kg, kWh)" required>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-outline-danger remove-metric">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+        return entry;
+    }
+
+    addMetricBtn.addEventListener('click', () => {
+        metricsContainer.appendChild(createMetricEntry());
+    });
+
+    metricsContainer.addEventListener('click', (e) => {
+        if (e.target.closest('.remove-metric')) {
+            e.target.closest('.metric-entry').remove();
+        }
+    });
+
+    // Handle action entries
+    const actionsContainer = document.getElementById('actions-container');
+    const addActionBtn = document.getElementById('add-action');
+
+    function createActionEntry() {
+        const entry = document.createElement('div');
+        entry.className = 'action-entry mb-2';
+        entry.innerHTML = `
+            <div class="row g-2">
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="action_titles[]" placeholder="Action title" required>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="action_urls[]" placeholder="URL" required>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" name="action_icons[]" placeholder="Icon name (e.g., fa-heart)" required>
+                </div>
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-outline-danger remove-action">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+        return entry;
+    }
+
+    addActionBtn.addEventListener('click', () => {
+        actionsContainer.appendChild(createActionEntry());
+    });
+
+    actionsContainer.addEventListener('click', (e) => {
+        if (e.target.closest('.remove-action')) {
+            e.target.closest('.action-entry').remove();
+        }
+    });
+
+    // Form validation
+    const form = document.querySelector('form');
+    form.addEventListener('submit', (e) => {
+        const requiredFields = form.querySelectorAll('[required]');
+        let isValid = true;
+
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                isValid = false;
+                field.classList.add('is-invalid');
+            } else {
+                field.classList.remove('is-invalid');
+            }
+        });
+
+        if (!isValid) {
+            e.preventDefault();
+            alert('Please fill in all required fields.');
+        }
+    });
+});
+</script>
+{% endblock %} 

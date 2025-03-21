@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1>Virgin Green Hub Ideas</h1>
+            <p class="lead">Share and vote on sustainability ideas from the Virgin community</p>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#newIdeaModal">
+                <i class="bi bi-plus-circle"></i> Submit New Idea
+            </button>
+        </div>
+    </div>
+
+    <!-- Ideas List -->
+    <div class="row">
+        {% for idea in ideas %}
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ idea.title }}</h5>
+                    <p class="card-text">{{ idea.description }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="badge bg-{{ 'warning' if idea.status == 'under_review' else 'success' }}">
+                                {{ idea.status|replace('_', ' ')|title }}
+                            </span>
+                            <small class="text-muted ms-2">by {{ idea.submitted_by }}</small>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <button class="btn btn-outline-primary btn-sm me-2">
+                                <i class="bi bi-hand-thumbs-up"></i> Vote ({{ idea.votes }})
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- New Idea Modal -->
+<div class="modal fade" id="newIdeaModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Submit New Idea</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="newIdeaForm">
+                    <div class="mb-3">
+                        <label for="ideaTitle" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="ideaTitle" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ideaDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="ideaDescription" rows="4" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" form="newIdeaForm" class="btn btn-success">Submit Idea</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

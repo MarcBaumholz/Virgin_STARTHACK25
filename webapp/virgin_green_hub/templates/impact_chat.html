@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1>Impact Chat</h1>
+            <p class="lead">Join the conversation about sustainability initiatives</p>
+        </div>
+    </div>
+
+    <!-- Chat Messages -->
+    <div class="card">
+        <div class="card-body" style="height: 400px; overflow-y: auto;">
+            <div class="chat-messages">
+                {% for message in messages %}
+                <div class="chat-message mb-3">
+                    <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <div class="avatar bg-light rounded-circle p-2">
+                                <i class="bi bi-person"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <div class="d-flex justify-content-between">
+                                <h6 class="mb-0">{{ message.user }}</h6>
+                                <small class="text-muted">{{ message.timestamp }}</small>
+                            </div>
+                            <p class="mb-0">{{ message.message }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="card-footer">
+            <form id="chatForm" class="d-flex">
+                <input type="text" class="form-control me-2" placeholder="Type your message...">
+                <button type="submit" class="btn btn-primary">Send</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+.avatar {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chat-messages {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-message:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chatForm = document.getElementById('chatForm');
+    const chatMessages = document.querySelector('.chat-messages');
+    const messageInput = chatForm.querySelector('input');
+
+    // Scroll to bottom of chat
+    chatMessages.parentElement.scrollTop = chatMessages.parentElement.scrollHeight;
+
+    chatForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const message = messageInput.value.trim();
+        if (message) {
+            // In a real app, this would send the message to the server
+            // For now, we'll just clear the input
+            messageInput.value = '';
+        }
+    });
+});
+</script>
+{% endblock %} 

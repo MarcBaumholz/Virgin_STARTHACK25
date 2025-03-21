@@ -1,0 +1,256 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Green API Documentation</h1>
+    
+    <!-- API Overview -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="mb-0">Overview</h3>
+        </div>
+        <div class="card-body">
+            <p>The Virgin Green Hub API provides programmatic access to sustainability data and functionality. Use this API to integrate sustainability features into your applications.</p>
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                All API endpoints require authentication using an API key. Contact support to obtain an API key.
+            </div>
+        </div>
+    </div>
+
+    <!-- Authentication -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="mb-0">Authentication</h3>
+        </div>
+        <div class="card-body">
+            <p>Include your API key in the request header:</p>
+            <pre class="bg-light p-3 rounded"><code>Authorization: Bearer YOUR_API_KEY</code></pre>
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                Keep your API key secure and never share it publicly.
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects API -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="mb-0">Projects API</h3>
+        </div>
+        <div class="card-body">
+            <h4>List Projects</h4>
+            <pre class="bg-light p-3 rounded"><code>GET /api/v1/projects</code></pre>
+            <p>Query Parameters:</p>
+            <ul>
+                <li><code>category</code> - Filter by category</li>
+                <li><code>company</code> - Filter by company</li>
+                <li><code>status</code> - Filter by status</li>
+                <li><code>page</code> - Page number (default: 1)</li>
+                <li><code>per_page</code> - Items per page (default: 20)</li>
+            </ul>
+            <h5>Response Example:</h5>
+            <pre class="bg-light p-3 rounded"><code>{
+    "projects": [
+        {
+            "id": 1,
+            "title": "Solar Panel Installation",
+            "description": "Installing solar panels at Virgin HQ",
+            "category": "renewable_energy",
+            "company": "Virgin Group",
+            "status": "active",
+            "progress": 75,
+            "start_date": "2024-01-01",
+            "end_date": "2024-12-31"
+        }
+    ],
+    "total": 100,
+    "page": 1,
+    "per_page": 20
+}</code></pre>
+
+            <h4>Get Project Details</h4>
+            <pre class="bg-light p-3 rounded"><code>GET /api/v1/projects/{project_id}</code></pre>
+        </div>
+    </div>
+
+    <!-- Ideas API -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="mb-0">Ideas API</h3>
+        </div>
+        <div class="card-body">
+            <h4>List Ideas</h4>
+            <pre class="bg-light p-3 rounded"><code>GET /api/v1/ideas</code></pre>
+            <p>Query Parameters:</p>
+            <ul>
+                <li><code>category</code> - Filter by category</li>
+                <li><code>status</code> - Filter by status</li>
+                <li><code>sort</code> - Sort by (votes, newest, comments)</li>
+                <li><code>page</code> - Page number (default: 1)</li>
+                <li><code>per_page</code> - Items per page (default: 20)</li>
+            </ul>
+
+            <h4>Submit Idea</h4>
+            <pre class="bg-light p-3 rounded"><code>POST /api/v1/ideas</code></pre>
+            <p>Request Body:</p>
+            <pre class="bg-light p-3 rounded"><code>{
+    "title": "Eco-friendly Packaging",
+    "category": "waste_reduction",
+    "description": "Implement biodegradable packaging",
+    "impact": "Reduce plastic waste by 50%",
+    "implementation": "Phase 1: Research suppliers"
+}</code></pre>
+        </div>
+    </div>
+
+    <!-- Green Points API -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="mb-0">Green Points API</h3>
+        </div>
+        <div class="card-body">
+            <h4>Get User Points</h4>
+            <pre class="bg-light p-3 rounded"><code>GET /api/v1/users/{user_id}/points</code></pre>
+            <h5>Response Example:</h5>
+            <pre class="bg-light p-3 rounded"><code>{
+    "points": 1250,
+    "level": 5,
+    "next_level_points": 1500,
+    "badges": [
+        {
+            "id": 1,
+            "name": "Early Adopter",
+            "description": "First to submit a green idea",
+            "icon": "star",
+            "color": "gold"
+        }
+    ]
+}</code></pre>
+
+            <h4>Get Leaderboard</h4>
+            <pre class="bg-light p-3 rounded"><code>GET /api/v1/leaderboard</code></pre>
+            <p>Query Parameters:</p>
+            <ul>
+                <li><code>timeframe</code> - daily, weekly, monthly, all-time</li>
+                <li><code>limit</code> - Number of users to return (default: 100)</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Impact Chat API -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="mb-0">Impact Chat API</h3>
+        </div>
+        <div class="card-body">
+            <h4>Get Chat Messages</h4>
+            <pre class="bg-light p-3 rounded"><code>GET /api/v1/chat/{room_id}/messages</code></pre>
+            <p>Query Parameters:</p>
+            <ul>
+                <li><code>before</code> - Get messages before timestamp</li>
+                <li><code>limit</code> - Number of messages to return (default: 50)</li>
+            </ul>
+
+            <h4>Send Message</h4>
+            <pre class="bg-light p-3 rounded"><code>POST /api/v1/chat/{room_id}/messages</code></pre>
+            <p>Request Body:</p>
+            <pre class="bg-light p-3 rounded"><code>{
+    "content": "Great idea about solar panels!",
+    "timestamp": "2024-03-20T10:30:00Z"
+}</code></pre>
+        </div>
+    </div>
+
+    <!-- Rate Limiting -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="mb-0">Rate Limiting</h3>
+        </div>
+        <div class="card-body">
+            <p>API requests are limited to:</p>
+            <ul>
+                <li>100 requests per minute for standard API keys</li>
+                <li>1000 requests per minute for premium API keys</li>
+            </ul>
+            <p>Rate limit headers are included in all responses:</p>
+            <pre class="bg-light p-3 rounded"><code>X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 95
+X-RateLimit-Reset: 1616239020</code></pre>
+        </div>
+    </div>
+
+    <!-- Error Handling -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="mb-0">Error Handling</h3>
+        </div>
+        <div class="card-body">
+            <p>All errors follow this format:</p>
+            <pre class="bg-light p-3 rounded"><code>{
+    "error": {
+        "code": "invalid_request",
+        "message": "Invalid API key",
+        "details": {
+            "field": "api_key",
+            "reason": "expired"
+        }
+    }
+}</code></pre>
+            <h5>Common Error Codes:</h5>
+            <ul>
+                <li><code>invalid_request</code> - Invalid parameters</li>
+                <li><code>unauthorized</code> - Invalid or missing API key</li>
+                <li><code>forbidden</code> - Insufficient permissions</li>
+                <li><code>not_found</code> - Resource not found</li>
+                <li><code>rate_limit_exceeded</code> - Rate limit exceeded</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- SDKs -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="mb-0">SDKs</h3>
+        </div>
+        <div class="card-body">
+            <p>Official SDKs are available for:</p>
+            <ul>
+                <li><a href="#" class="text-success">Python</a></li>
+                <li><a href="#" class="text-success">JavaScript</a></li>
+                <li><a href="#" class="text-success">Java</a></li>
+                <li><a href="#" class="text-success">Ruby</a></li>
+            </ul>
+            <p>Example using Python SDK:</p>
+            <pre class="bg-light p-3 rounded"><code>from virgin_green_hub import VirginGreenHub
+
+client = VirginGreenHub(api_key='YOUR_API_KEY')
+
+# Get projects
+projects = client.projects.list(category='renewable_energy')
+
+# Submit idea
+idea = client.ideas.create(
+    title='Solar Panel Installation',
+    category='renewable_energy',
+    description='Install solar panels at Virgin HQ'
+)</code></pre>
+        </div>
+    </div>
+
+    <!-- Support -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="mb-0">Support</h3>
+        </div>
+        <div class="card-body">
+            <p>For API support:</p>
+            <ul>
+                <li>Email: api-support@virgingreenhub.com</li>
+                <li>Documentation: <a href="#" class="text-success">https://api.virgingreenhub.com/docs</a></li>
+                <li>GitHub: <a href="#" class="text-success">https://github.com/virgin/green-hub-api</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %} 

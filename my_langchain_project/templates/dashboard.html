@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Virgin Initiatives Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-8">Virgin Initiatives Analysis Dashboard</h1>
+        
+        {% if error %}
+        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-8" role="alert">
+            <p class="font-bold">Error</p>
+            <p>{{ error }}</p>
+        </div>
+        {% endif %}
+
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <button onclick="runAnalysis('summarize')" class="bg-blue-500 text-white p-4 rounded">
+                Generate Summary
+            </button>
+            <button onclick="runAnalysis('labels')" class="bg-green-500 text-white p-4 rounded">
+                Analyze Labels
+            </button>
+            <button onclick="runAnalysis('trends')" class="bg-purple-500 text-white p-4 rounded">
+                Show Trends
+            </button>
+        </div>
+
+        <!-- Stats & Charts -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="font-bold mb-4">Initiatives by Company</h3>
+                <canvas id="companyChart"></canvas>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="font-bold mb-4">Analysis Results</h3>
+                <div id="analysisResult" class="prose"></div>
+            </div>
+        </div>
+
+        <!-- Add after Stats & Charts section -->
+        <div class="bg-white p-6 rounded-lg shadow mb-8">
+            <h3 class="font-bold mb-4">Initiative Ratings</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="p-4 border rounded">
+                    <h4 class="font-semibold">Sustainability</h4>
+                    <div id="sustainabilityRating"></div>
+                </div>
+                <div class="p-4 border rounded">
+                    <h4 class="font-semibold">Innovation</h4>
+                    <div id="innovationRating"></div>
+                </div>
+                <div class="p-4 border rounded">
+                    <h4 class="font-semibold">Feasibility</h4>
+                    <div id="feasibilityRating"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Query Interface -->
+        <div class="bg-white p-6 rounded-lg shadow mb-8">
+            <h3 class="font-bold mb-4">Ask Custom Questions</h3>
+            <form id="queryForm" class="space-y-4">
+                <input type="text" id="query" name="query" 
+                       class="w-full p-3 border rounded"
+                       placeholder="e.g., What are the sustainability initiatives?">
+                <button type="submit" class="bg-indigo-500 text-white px-6 py-2 rounded">
+                    Ask Question
+                </button>
+            </form>
+            <div id="queryResult" class="mt-4 p-4 bg-gray-50 rounded"></div>
+        </div>
+        
+        <!-- Collaborations -->
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="font-bold mb-4">Suggested Collaborations</h3>
+            <div id="collaborations">{{ collaborations }}</div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize chart
+        const ctx = document.getElementById('companyChart').getContext('2d');
+        const chartData = {{ chart_data|safe }};
+        
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(chartData),
+                datasets: [{
+                    label: 'Initiatives per Company',
+                    data: Object.values(chartData),
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)'
+                }]
+            }
+        });
+
+        // Handle form submission
+        document.getElementById('queryForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const queryResult = document.getElementById('queryResult');
+            queryResult.innerHTML = 'Loading...';
+            
+            try {
+                const query = document.getElementById('query').value;
+                const response = await fetch('/query', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: `query=${encodeURIComponent(query)}`
+                });
+                const data = await response.json();
+                queryResult.innerHTML = data.result;
+            } catch (error) {
+                queryResult.innerHTML = `Error: ${error.message}`;
+            }
+        });
+
+        // Handle analysis actions
+        async function runAnalysis(type) {
+            const resultDiv = document.getElementById('analysisResult');
+            resultDiv.innerHTML = 'Loading...';
+            
+            try {
+                const response = await fetch(`/api/analysis?type=${type}`);
+                const data = await response.json();
+                if (data.result && data.result.ratings) {
+                    updateRatings(data.result.ratings);
+                }
+                resultDiv.innerHTML = data.result || data[type];
+            } catch (error) {
+                resultDiv.innerHTML = `Error: ${error.message}`;
+            }
+        }
+
+        function updateRatings(ratings) {
+            document.getElementById('sustainabilityRating').textContent = ratings.sustainability;
+            document.getElementById('innovationRating').textContent = ratings.innovation;
+            document.getElementById('feasibilityRating').textContent = ratings.feasibility;
+        }
+    </script>
+</body>
+</html>
